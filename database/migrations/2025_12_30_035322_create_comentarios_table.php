@@ -16,7 +16,7 @@ return new class extends Migration
             $table->text('descripcion');
             $table->integer('calificacion');
             $table->dateTime('fechareg');
-            $table->char('estareg', 1);
+            $table->tinyInteger('estareg')->default(true); // 1 = activo, 0 = inactivo
         });
     }
 

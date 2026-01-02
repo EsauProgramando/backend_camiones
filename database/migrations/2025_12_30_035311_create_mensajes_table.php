@@ -17,7 +17,7 @@ return new class extends Migration
             $table->string('contacto', 150);
             $table->string('email', 150);
             $table->dateTime('fechareg');
-            $table->char('estareg', 1);
+            $table->tinyInteger('estareg')->default(true); // 1 = activo, 0 = inactivo
         });
     }
 

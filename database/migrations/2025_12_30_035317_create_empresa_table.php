@@ -21,6 +21,8 @@ return new class extends Migration
             $table->decimal('longitud', 10, 7);
             $table->text('descripcion');
             $table->string('horario', 100);
+            $table->string('email', 150);
+            $table->tinyInteger('estareg')->default(true); // 1 = activo, 0 = inactivo
         });
     }
 

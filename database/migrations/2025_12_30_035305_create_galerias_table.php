@@ -18,10 +18,13 @@ return new class extends Migration
             $table->dateTime('fechaupdate')->nullable();
             $table->decimal('peso', 10, 2);
             $table->unsignedBigInteger('idtipoimagen');
-
+            $table->string('titulo');
+            $table->text('parrafo');
+            $table->tinyInteger('estareg')->default(true); // 1 = activo, 0 = inactivo
             $table->foreign('idtipoimagen')
                 ->references('idtipoimagen')
                 ->on('tipoimagen');
+                
           });
     }
 
