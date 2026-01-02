@@ -16,7 +16,9 @@ return new class extends Migration
          $table->text('parrafo');
          $table->integer('correlativo');
          $table->unsignedBigInteger('idtipocontenido');
-         $table->char('estareg', 1);
+        $table->string('titulo');
+        $table->string('color');
+         $table->tinyInteger('estareg')->default(true); // 1 = activo, 0 = inactivo
          $table->dateTime('fechareg');
         $table->foreign('idtipocontenido')
           ->references('idtipocontenido')
