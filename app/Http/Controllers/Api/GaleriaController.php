@@ -33,24 +33,37 @@ class GaleriaController extends Controller
     }
 
     public function update(Request $request)
-    {
-        $ruta = $request->imagen
-            ? $this->guardarImagenBase64($request->imagen)
-            : $request->nombrefoto;
+{
+    // 🔹 Si viene imagen nueva
+    if ($request->imagen) {
 
-        DB::statement("CALL sp_galerias(2, ?)", [
-            json_encode([
-                'idgaleria'    => $request->idgaleria,
-                'nombrefoto'   => $ruta,
-                'peso'         => $request->peso,
-                'idtipoimagen' => $request->idtipoimagen,
-                'titulo'       => $request->titulo,
-                'parrafo'      => $request->parrafo,
-            ])
-        ]);
+        // 1️⃣ Borrar imagen anterior si existe
+        if ($request->nombrefoto && Storage::disk('public')->exists($request->nombrefoto)) {
+            Storage::disk('public')->delete($request->nombrefoto);
+        }
 
-        return response()->json(['ok' => true]);
+        // 2️⃣ Guardar nueva imagen
+        $ruta = $this->guardarImagenBase64($request->imagen);
+
+    } else {
+        // 🔹 Mantener imagen actual
+        $ruta = $request->nombrefoto;
     }
+
+    DB::statement("CALL sp_galerias(2, ?)", [
+        json_encode([
+            'idgaleria'    => $request->idgaleria,
+            'nombrefoto'   => $ruta,
+            'peso'         => $request->peso,
+            'idtipoimagen' => $request->idtipoimagen,
+            'titulo'       => $request->titulo,
+            'parrafo'      => $request->parrafo,
+        ])
+    ]);
+
+    return response()->json(['ok' => true]);
+}
+
 
     private function guardarImagenBase64($base64)
     {
@@ -64,4 +77,18 @@ class GaleriaController extends Controller
 
         return $ruta; // SOLO RUTA
     }
+
+    public function destroy(Request $request)
+{
+    if ($request->nombrefoto && Storage::disk('public')->exists($request->nombrefoto)) {
+        Storage::disk('public')->delete($request->nombrefoto);
+    }
+
+    DB::statement("CALL sp_galerias(3, ?)", [
+        json_encode(['idgaleria' => $request->idgaleria])
+    ]);
+
+    return response()->json(['ok' => true]);
+}
+
 }
