@@ -16,6 +16,7 @@ class CrudController extends Controller
         'mensajes'      => 'sp_mensajes',
         'empresa'       => 'sp_empresa',
         'comentarios'   => 'sp_comentarios',
+        'materiales'   => 'sp_materiales',
     ];
 
     public function execute(Request $request)
