@@ -53,6 +53,7 @@ class MaterialesController extends Controller
 
         DB::statement("CALL sp_materiales(2, ?)", [
             json_encode([
+                'idmateriales'    => $request->idmateriales,
                 'nombrefoto'   => $ruta,
                 'titulo'         => $request->titulo,
                 'nombrematerial' => $request->nombrematerial,
@@ -89,6 +90,16 @@ class MaterialesController extends Controller
         ]);
 
         return response()->json(['ok' => true]);
+    }
+    public function obtenermaterial($idmateriales)
+    {
+        $data = DB::select(
+            "CALL sp_materiales(6, ?)",
+            [ json_encode(['idmateriales' => $idmateriales]) ]
+        );
+
+        // Retornar un solo registro (siempre viene como array)
+        return response()->json($data[0] ?? null);
     }
 
 }
