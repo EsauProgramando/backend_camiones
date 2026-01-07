@@ -20,3 +20,4 @@ Route::get('galerias', [GaleriaController::class, 'index']);
 Route::post('materiales', [MaterialesController::class, 'store']);
 Route::put('materiales', [MaterialesController::class, 'update']);
 Route::get('materiales', [MaterialesController::class, 'index']);
+Route::get('materiales/{idmateriales}', [MaterialesController::class, 'obtenermaterial']);
