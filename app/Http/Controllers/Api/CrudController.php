@@ -31,8 +31,7 @@ class CrudController extends Controller
 
     $sp = $this->procedures[$tabla];
 
-    // 👉 LISTADO
-    if ($op == 5) {
+    if (in_array($op, [5, 7])) {
         $result = DB::select(
             "CALL {$sp}(?, ?)",
             [$op, json_encode($data)]
